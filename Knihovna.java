@@ -1,4 +1,10 @@
-
+package projekt_1;
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -111,5 +117,41 @@ public class Knihovna {
     public Knihy[] getKnihy() {
         return knihy.toArray(new Knihy[0]);
     }
+    
+    public static void ulozKnihu(String souborNazev, String titul, String[] autori, int datumVydani, String genre, boolean isVypujcena) {
+        try (FileWriter writer = new FileWriter(souborNazev)) {
+        	String formattedString = String.format("%s,%s,%d,%s,%b", titul, String.join(",", autori), datumVydani, genre, isVypujcena);
+        	writer.write(formattedString);
+        } catch (IOException e) {
+            System.out.println("Chyba při ukládání do souboru: " + e.getMessage());
+        }
+    }
+    
+    public static String nactiInformaceZeSouboru(String souborNazev) throws IOException {
+       StringBuilder informace = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(souborNazev))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                informace.append(line).append("\n");
+            }
+        }
+        return informace.toString();
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }

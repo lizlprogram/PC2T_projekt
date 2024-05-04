@@ -1,11 +1,20 @@
+
+package projekt_1;
+import java.io.FileOutputStream;
+
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import Kniha.Knihy;
 import Kniha.Roman;
 import Kniha.Ucebnice;
 
+
 public class main {
-    public static void main(String[] args) {
+  //  private static final String String = null;
+
+	public static void main(String[] args) {
         Knihovna knihovna = new Knihovna();
         Scanner scanner = new Scanner(System.in);
 
@@ -20,7 +29,9 @@ public class main {
             System.out.println("7. Databaze knih dle autoru");
             System.out.println("8. Databaze knih dle zanru");
             System.out.println("9. Database vypujcenych knih");
-            System.out.println("10. Zavrit aplikaci");
+            System.out.println("10. Ulozeni informace o vybrane knizce do souboru .txt");
+            System.out.println("11. Nacteni vsech informacii o dane knize ze souboru .txt");
+            System.out.println("12. Zavrit aplikaci");
 
             int cases = scanner.nextInt();
             scanner.nextLine(); 
@@ -36,7 +47,7 @@ public class main {
                     
                     int datumVydani;
                     while (true) {
-                        System.out.print("Rok datumu vydani:");
+                        System.out.print("Rok vydani:");
                         if (scanner.hasNextInt()) {
                             datumVydani = scanner.nextInt();
                             break;
@@ -47,7 +58,7 @@ public class main {
                     }
                     scanner.nextLine(); // Consume newline character
                     
-                    System.out.print("Zarn (roman/ucebnice): ");
+                    System.out.print("Zanr (roman/ucebnice): ");
                     String genre = scanner.nextLine().toLowerCase();
                     while (!genre.equals("roman") && !genre.equals("ucebnice")) {
                         System.out.println("Spatny zanr. Zadejte prosim 'roman' nebo 'ucebnice':");
@@ -241,9 +252,38 @@ public class main {
                         System.out.println("Zadne vypujcene knihy.");
                     }
                     break;
-                
-
+                    
                 case 10:
+                	 System.out.println("Zadejte nazev knihy pro uložení informací do souboru .txt:");
+                	    String vybranaKniha = scanner.nextLine();
+                	    boolean nalezenaKniha = false;
+                	    for (Knihy kniha : knihovna.getKnihy()) {
+                	        if (kniha.getTitul().equalsIgnoreCase(vybranaKniha)) {
+                	            nalezenaKniha = true;
+                	            String souborNazev = vybranaKniha + ".txt";
+                	            Knihovna.ulozKnihu(souborNazev, kniha.getTitul(), kniha.getAutor(), kniha.getdatumVydani(), kniha.getZanr(), kniha.isVypujcena());
+                	            System.out.println("Informace o knize \"" + vybranaKniha + "\" byly uloženy do souboru \"" + souborNazev + "\".");
+                	            break;
+                	        }
+                	    }
+                	    if (!nalezenaKniha) {
+                	        System.out.println("Kniha nenalezena.");
+                	    }
+                    break;
+                    
+                case 11:
+                	System.out.println("Zadejte název souboru .txt, ze kterého chcete načíst informace o knize:");
+                    String soubor = scanner.nextLine();
+                    try {
+                        String informace = Knihovna.nactiInformaceZeSouboru(soubor);
+                        System.out.println("Informace o knize načteny ze souboru:");
+                        System.out.println(informace);
+                    } catch (IOException e) {
+                        System.out.println("Chyba při čtení souboru: " + e.getMessage());
+                    }
+                    break;
+                    
+                case 12:
                     System.out.println("Opousteni programu");
                     System.exit(0);
                     break;
@@ -252,4 +292,6 @@ public class main {
             }
         }
     }
+
 }
+
