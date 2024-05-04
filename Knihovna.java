@@ -120,7 +120,7 @@ public class Knihovna {
     
     public static void ulozKnihu(String souborNazev, String titul, String[] autori, int datumVydani, String genre, boolean isVypujcena) {
         try (FileWriter writer = new FileWriter(souborNazev)) {
-        	String formattedString = String.format("%s,%s,%d,%s,%b", titul, String.join(",", autori), datumVydani, genre, isVypujcena);
+        	String formattedString = String.format("Nazev: %s, Autor/i: %s, Rok vydani: %d, Zanr: %s, False = vypujcena / True = nevypujcena: %b", titul, String.join(",", autori), datumVydani, genre, isVypujcena);
         	writer.write(formattedString);
         } catch (IOException e) {
             System.out.println("Chyba při ukládání do souboru: " + e.getMessage());
