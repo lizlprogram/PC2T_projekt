@@ -6,7 +6,6 @@ import Kniha.Ucebnice;
 
 
 public class main {
-  //  private static final String String = null;
 
 	public static void main(String[] args) {
         Knihovna knihovna = new Knihovna();
@@ -47,10 +46,10 @@ public class main {
                             break;
                         } else {
                             System.out.println("Spatny vstup. Zadejte prosim platny rok.");
-                            scanner.nextLine(); // Consume invalid input
+                            scanner.nextLine(); 
                         }
                     }
-                    scanner.nextLine(); // Consume newline character
+                    scanner.nextLine(); 
                     
                     System.out.print("Zanr (roman/ucebnice): ");
                     String genre = scanner.nextLine().toLowerCase();
@@ -100,21 +99,21 @@ public class main {
                     String novyAutor = scanner.nextLine();
                     String[] novyAutori = novyAutor.split(",");
                 
-                  // Edit publish date
+              
                   while (true) {
                         System.out.print("Novy rok vydani: ");
                         String noveDatumStr = scanner.nextLine();
                   
-                        // Validate if the input consists only of digits
+                      
                         if (noveDatumStr.matches("\\d+")) {
                         int noveDatum = Integer.parseInt(noveDatumStr);
                         upravaKnihy.setdatumVydani(noveDatum);
-                        break; // Exit the loop if the input is valid
+                        break; 
                         } else {
                         System.out.println("Spatny vstup. Zadejte prosim platny rok.");
                         }
   }
-                    // Edit borrow status
+                    
                     System.out.print("Je kniha dostupna? (Zadejte 'A' pro ANO, 'N' pro NE): ");
                         String jeVypujcenaVstup = scanner.nextLine();
                         while (!jeVypujcenaVstup.equalsIgnoreCase("A") && !jeVypujcenaVstup.equalsIgnoreCase("N")) {
@@ -124,7 +123,7 @@ public class main {
                         boolean jeVypujcena = jeVypujcenaVstup.equalsIgnoreCase("A");
                         upravaKnihy.setVypujcena(jeVypujcena);
                 
-                    // Set the new details
+                   
                     upravaKnihy.setTitul(novyTitul);
                     upravaKnihy.setAutor(novyAutori);
                 
@@ -133,7 +132,7 @@ public class main {
                 
 
                 case 3:
-                    // Delete a book
+                    
                     System.out.println("\nZadejte nazev knihy pro odstraneni");
                     String odstranitTitul = scanner.nextLine();
                     boolean odstraneniNalezeno = false;
@@ -150,7 +149,7 @@ public class main {
                     break;
 
                 case 4:
-                    // Search book by name
+                   
                     System.out.println("\nZadejte nazev knihy pro zobrazeni informaci:");
                     String vyhledatTitul = scanner.nextLine();
                     boolean foundVyhledani = false;

@@ -9,7 +9,7 @@ public class Roman extends Knihy {
     public Roman(String titul, String[] autor, int datumVydani, boolean vypujcena) {
         super(titul, autor, datumVydani, "roman", vypujcena); 
         setTyp();
-        setDostupnost(); // This method should be called from the constructor
+        setDostupnost(); 
     }
 
     public void setTyp() {
@@ -76,7 +76,7 @@ public class Roman extends Knihy {
       }
   }
 
-    // Getter for type
+    
     public String getTyp() {
         return type;
     }

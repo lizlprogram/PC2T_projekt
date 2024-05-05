@@ -15,16 +15,16 @@ public class Knihovna {
     private ArrayList<Knihy> knihy = new ArrayList<>();
 
     public boolean pridatKnihu(Knihy kniha) {
-        // Check if a book with the same title already exists
+        
         for (Knihy existingBook : knihy) {
             if (existingBook.getTitul().equalsIgnoreCase(kniha.getTitul())) {
                 System.out.println("\nKniha s titulem '" + kniha.getTitul() + "' jiz existuje. Nelze pridat duplikat.- \n");
-                return false; // Return false to indicate that the book was not added
+                return false; 
             }
         }
-        // If the loop completes without finding a duplicate, add the book
+       
         knihy.add(kniha);
-        // Return true to indicate that the book was successfully added
+        
         return true;
     }
     
@@ -74,10 +74,10 @@ public class Knihovna {
     }
 
     public void vypisKnih() {
-        // Sort books by publish date
+      
         Collections.sort(knihy, Comparator.comparing(Knihy::getdatumVydani));
 
-        // Print book information
+        
         System.out.println("Vsechny knihy v chronologickem poradi:");
         for (Knihy kniha : knihy) {
             System.out.println("Titul: " + kniha.getTitul());
