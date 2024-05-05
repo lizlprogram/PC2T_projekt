@@ -56,7 +56,6 @@ public class Knihy {
   }
 
     public void setZanr(String newzanr) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setzanr'");
     }
 
