@@ -44,15 +44,16 @@ public class Knihy {
     }
 
     public void setTitul(String titul) {
-    }
+      this.titul = titul;
+  }
 
     public void setAutor(String[] autor) {
         this.autor = autor;
     }
 
-    public void setdatumVydani(String newdatumVydani) {
-        this.datumVydani = datumVydani;
-    }
+    public void setdatumVydani(int newdatumVydani) {
+      this.datumVydani = newdatumVydani;
+  }
 
     public void setZanr(String newzanr) {
         // TODO Auto-generated method stub

@@ -1,10 +1,8 @@
-package projekt_1;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -68,7 +66,7 @@ public class Knihovna {
         for (Knihy kniha : knihy) {
             if (kniha.getTitul().equalsIgnoreCase(title)) {
                 kniha.setVypujcena(false);
-                System.out.println("Kniha oznacena jako dostupna.");
+                System.out.println("Status knihy uspesne zmenen");
                 return;
             }
         }

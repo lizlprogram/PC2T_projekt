@@ -7,9 +7,9 @@ public class Roman extends Knihy {
     private String type;
 
     public Roman(String titul, String[] autor, int datumVydani, boolean vypujcena) {
-        super(titul, autor, datumVydani, "Novel", vypujcena); 
+        super(titul, autor, datumVydani, "roman", vypujcena); 
         setTyp();
-        setAvailability(); // This method should be called from the constructor
+        setDostupnost(); // This method should be called from the constructor
     }
 
     public void setTyp() {
@@ -58,13 +58,23 @@ public class Roman extends Knihy {
         }
     }
 
-    private void setAvailability() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Je roman vypujceny? ('A' pro ANO, 'N' pro NE): ");
-        String isAvailableInput = scanner.nextLine();
-        boolean isAvailable = isAvailableInput.equalsIgnoreCase("A");
-        setVypujcena(!isAvailable);
-    }
+    private void setDostupnost() {
+      Scanner scanner = new Scanner(System.in);
+      boolean validInput = false;
+  
+      while (!validInput) {
+          System.out.print("Je roman vypujceny? ('A' pro ANO, 'N' pro NE): ");
+          String isAvailableInput = scanner.nextLine();
+          
+          if (isAvailableInput.equalsIgnoreCase("A") || isAvailableInput.equalsIgnoreCase("N")) {
+              boolean isAvailable = isAvailableInput.equalsIgnoreCase("A");
+              setVypujcena(!isAvailable);
+              validInput = true;
+          } else {
+              System.out.println("Spatny vstup. Zadejte prosim 'A' pro ANO nebo 'N' pro NE.");
+          }
+      }
+  }
 
     // Getter for type
     public String getTyp() {

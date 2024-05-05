@@ -46,13 +46,23 @@ public class Ucebnice extends Knihy {
 
         }
 
-    private void setDostupnost() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Je ucebnice vypujcena? ('A' pro ANO, 'N' pro NE): ");
-        String isAvailableInput = scanner.nextLine();
-        boolean isAvailable = isAvailableInput.equalsIgnoreCase("A");
-        setVypujcena(!isAvailable);
-    }
+        private void setDostupnost() {
+            Scanner scanner = new Scanner(System.in);
+            boolean validInput = false;
+        
+            while (!validInput) {
+                System.out.print("Je ucebnice vypujcena? ('A' pro ANO, 'N' pro NE): ");
+                String isAvailableInput = scanner.nextLine();
+                
+                if (isAvailableInput.equalsIgnoreCase("A") || isAvailableInput.equalsIgnoreCase("N")) {
+                    boolean isAvailable = isAvailableInput.equalsIgnoreCase("A");
+                    setVypujcena(!isAvailable);
+                    validInput = true;
+                } else {
+                    System.out.println("Spatny vstup. Zadejte prosim 'A' pro ANO nebo 'N' pro NE.");
+                }
+            }
+        }
 
     public String getType() {
         return type;
