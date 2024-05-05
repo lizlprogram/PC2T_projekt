@@ -1,4 +1,9 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 import Kniha.Knihy;
 import Kniha.Roman;
@@ -12,6 +17,7 @@ public class main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            try {
             System.out.println("Vyberte si z nabidky pomoci cisel moznosti");
             System.out.println("1. Pridat knihu");
             System.out.println("2. Upravit knihu");
@@ -21,15 +27,15 @@ public class main {
             System.out.println("6. Databaze vsech knih");
             System.out.println("7. Databaze knih dle autoru");
             System.out.println("8. Databaze knih dle zanru");
-            System.out.println("9. Database vypujcenych knih");
+            System.out.println("9. Databaze vypujcenych knih");
             System.out.println("10. Ulozeni informace o vybrane knizce do souboru .txt");
             System.out.println("11. Nacteni vsech informacii o dane knize ze souboru .txt");
             System.out.println("12. Zavrit aplikaci");
 
-            int cases = scanner.nextInt();
+            int vyber = scanner.nextInt();
             scanner.nextLine(); 
 
-            switch (cases) {
+            switch (vyber) {
                 case 1:
                     System.out.println("\nVlozte informace o knihach:");
                     System.out.print("Titul: ");
@@ -112,7 +118,7 @@ public class main {
                         } else {
                         System.out.println("Spatny vstup. Zadejte prosim platny rok.");
                         }
-  }
+                         }
                     
                     System.out.print("Je kniha dostupna? (Zadejte 'A' pro ANO, 'N' pro NE): ");
                         String jeVypujcenaVstup = scanner.nextLine();
@@ -127,12 +133,11 @@ public class main {
                     upravaKnihy.setTitul(novyTitul);
                     upravaKnihy.setAutor(novyAutori);
                 
-                    System.out.println(" \nKniha uspesne upravena!");
+                    System.out.println(" \nKniha uspesne upravena! \n");
                     break;
                 
 
                 case 3:
-                    
                     System.out.println("\nZadejte nazev knihy pro odstraneni");
                     String odstranitTitul = scanner.nextLine();
                     boolean odstraneniNalezeno = false;
@@ -144,12 +149,11 @@ public class main {
                         }
                     }
                     if (!odstraneniNalezeno) {
-                        System.out.println("\nKniha nenalezena.");
+                        System.out.println("\nKniha nenalezena.\n");
                     }
                     break;
 
                 case 4:
-                   
                     System.out.println("\nZadejte nazev knihy pro zobrazeni informaci:");
                     String vyhledatTitul = scanner.nextLine();
                     boolean foundVyhledani = false;
@@ -194,45 +198,50 @@ public class main {
                     break;
 
                 case 6:
-                Knihy[] allBooks = knihovna.getKnihy();
-                if (allBooks.length == 0) {
-                    System.out.println("\nDatabaze je prazdna.");
-                } else {
-                    System.out.println("\nVypis vsech knih:");
-                    for (Knihy book : allBooks) {
-                        System.out.println("Titul: " + book.getTitul());
-                        System.out.println("Autor/Autori: " + String.join(", ", book.getAutor()));
-                        System.out.println("Zanr: " + book.getZanr());
-                        if (book instanceof Roman) {
-                            System.out.println("Typ: " + ((Roman) book).getTyp());
+                  Knihy[] allBooks = knihovna.getKnihy();
+                  if (allBooks.length == 0) {
+                        System.out.println("\nDatabaze je prazdna.");
+                  } else {
+                        System.out.println("\nVypis vsech knih:");
+                        for (Knihy book : allBooks) {
+                              System.out.println("Titul: " + book.getTitul());
+                              System.out.println("Autor/Autori: " + String.join(", ", book.getAutor()));
+                              System.out.println("Zanr: " + book.getZanr());
+                              if (book instanceof Roman) {
+                              System.out.println("Typ: " + ((Roman) book).getTyp());
+                              }
+                              System.out.println("Datum Vydani: " + book.getdatumVydani());
+                              System.out.println("Je vypujcena: " + (book.isVypujcena() ? "NE" : "ANO"));
+                              System.out.println();
                         }
-                        System.out.println("Datum Vydani: " + book.getdatumVydani());
-                        System.out.println("Je vypujcena: " + (book.isVypujcena() ? "NE" : "ANO"));
-                        System.out.println();
-                    }
-                }
-                break;
+                  }
+                  break;
                 
                 
                 case 7:
-                System.out.println("\nVlozte jmeno autora:");
-                String jmenoAutora = scanner.nextLine();
-                boolean foundAutor = false;
-                System.out.println("Knihy od " + jmenoAutora + ":");
-                for (Knihy kniha : knihovna.getKnihy()) {
-                    for (String Autor : kniha.getAutor()) {
-                        if (Autor.equalsIgnoreCase(jmenoAutora)) {
-                            foundAutor = true;
-                            System.out.println("Titul: " + kniha.getTitul());
-                            System.out.println("Datum vydani: " + kniha.getdatumVydani() + "\n");
-                            break; 
+                        // Option 7: Database by author
+                        System.out.println("\nVlozte jmeno autora:");
+                        String authorName = scanner.nextLine();
+                        boolean foundAuthor = false;
+                        System.out.println("Knihy od " + authorName + ":");
+                        
+                        // Sort books by published date before printing
+                        List<Knihy> sortedBooks = new ArrayList<>(Arrays.asList(knihovna.getKnihy()));
+                        sortedBooks.sort(Comparator.comparingInt(Knihy::getdatumVydani));
+
+                        for (Knihy book : sortedBooks) {
+                              for (String author : book.getAutor()) {
+                                    if (author.equalsIgnoreCase(authorName)) {
+                                    foundAuthor = true;
+                                    System.out.println(book.getTitul() + " (" + book.getdatumVydani() + ")");
+                                    break; // Break the inner loop once a match is found for efficiency
+                                    }
+                              }
                         }
-                    }
-                }
-                if (!foundAutor) {
-                    System.out.println("\nNenalezeny knihy od " + jmenoAutora);
-                }
-                break;
+                        if (!foundAuthor) {
+                              System.out.println("\nNenalezeny knihy od " + authorName);
+                        }
+                        break;
             
                 
                 case 8:
@@ -263,23 +272,20 @@ public class main {
                   }
                   break;
                 
-                case 9:
-                  boolean foundVypujcene = true;
-                  System.out.println("Vypujcene knihy:");
-                  for (Knihy kniha : knihovna.getKnihy()) {
-                        if (kniha.isVypujcena()) {
-                              foundVypujcene = false;
-                              System.out.println("Titul: " + kniha.getTitul());
-                              System.out.println("Datum vydani: " + kniha.getdatumVydani());
-                              System.out.println("Zanr: " + kniha.getZanr() + "\n");
-                              System.out.println();
+                  case 9:
+                        boolean dostupneKnihy = false;
+                        System.out.println("Vypujcene knihy:");
+                        for (Knihy book : knihovna.getKnihy()) {
+                              if (!book.isVypujcena()) {
+                                    dostupneKnihy = true;
+                                    System.out.println("Title: " + book.getTitul() + ", Genre: " + book.getZanr());
+                              }
                         }
-                  }
-                  if (!foundVypujcene) {
-                        System.out.println("Zadne vypujcene knihy.");
-                  }
-                  break;
-                    
+                        if (!dostupneKnihy) {
+                              System.out.println("\nZadne knihy nejsou vypujceny.\n");
+                        }
+                        break;
+                        
                 case 11:
                 	System.out.println("Zadejte název souboru .txt, ze kterého chcete načíst informace o knize:");
                     String soubor = scanner.nextLine();
@@ -296,11 +302,13 @@ public class main {
                     System.out.println("Opousteni programu");
                     System.exit(0);
                     break;
-                default:
-                    System.out.println("Neplatna volba, zvolte prosim z nabizenych.");
+                    default:
+                    System.out.println("Neplatna volba. Zvolte prosim moznost ze seznamu.");
             }
+        } catch (InputMismatchException e) {
+            System.out.println("Spatny vstup. Zadejte prosim cislo moznosti.");
+            scanner.nextLine(); 
         }
     }
-
 }
-
+}
