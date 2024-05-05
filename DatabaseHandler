@@ -1,0 +1,50 @@
+import java.sql.*;
+
+public class DatabaseHandler {
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/library";
+    private static final String USER = "root";
+    private static final String PASSWORD = "";
+
+    public static void saveToDatabase(Knihovna knihovna) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+             Statement statement = connection.createStatement()) {
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS books (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(255), author VARCHAR(255), year INT, genre VARCHAR(255), available BOOLEAN)");
+
+            statement.executeUpdate("DELETE FROM books");
+
+            for (Knihy kniha : knihovna.getKnihy()) {
+                String query = String.format("INSERT INTO books (title, author, year, genre, available) VALUES ('%s', '%s', %d, '%s', %b)",
+                        kniha.getTitul(), String.join(",", kniha.getAutor()), kniha.getdatumVydani(), kniha.getZanr(), !kniha.isVypujcena());
+                statement.executeUpdate(query);
+            }
+            System.out.println("Data saved to the database successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadFromDatabase(Knihovna knihovna) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+             Statement statement = connection.createStatement()) {
+            var resultSet = statement.executeQuery("SELECT * FROM books");
+            while (resultSet.next()) {
+                String title = resultSet.getString("title");
+                String[] authors = resultSet.getString("author").split(",");
+                int year = resultSet.getInt("year");
+                String genre = resultSet.getString("genre");
+                boolean available = !resultSet.getBoolean("available");
+
+                if (genre.equals("roman")) {
+                    Roman roman = new Roman(title, authors, year, available);
+                    knihovna.pridatKnihu(roman);
+                } else if (genre.equals("ucebnice")) {
+                    Ucebnice ucebnice = new Ucebnice(title, authors, year, available);
+                    knihovna.pridatKnihu(ucebnice);
+                }
+            }
+            System.out.println("Data loaded from the database successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
