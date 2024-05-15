@@ -10,7 +10,7 @@ import Kniha.Roman;
 import Kniha.Ucebnice;
 
 
-public class main {
+public class Main {
 
 	public static void main(String[] args) {
         Knihovna knihovna = new Knihovna();
@@ -231,7 +231,7 @@ public class main {
                               for (String author : knizky.getAutor()) {
                                     if (author.equalsIgnoreCase(autorJmeno)) {
                                     foundAutor = true;
-                                    System.out.println(knizky.getTitul() + " (" + knizky.getdatumVydani() + ")");
+                                    System.out.println(knizky.getTitul() + ", rok vydani: " + knizky.getdatumVydani());
                                     break; 
                                     }
                               }
