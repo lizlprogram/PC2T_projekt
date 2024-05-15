@@ -10,7 +10,7 @@ import Kniha.Roman;
 import Kniha.Ucebnice;
 
 
-public class Main {
+public class main {
 
 	public static void main(String[] args) {
         Knihovna knihovna = new Knihovna();
@@ -283,29 +283,47 @@ public class Main {
                               System.out.println("\nZadne knihy nejsou vypujceny.\n");
                         }
                         break;
-                        
-                case 11:
-                	System.out.println("Zadejte název souboru .txt, ze kterého chcete načíst informace o knize:");
-                    String soubor = scanner.nextLine();
-                    try {
-                        String informace = Knihovna.nactiInformaceZeSouboru(soubor);
-                        System.out.println("Informace o knize načteny ze souboru:");
-                        System.out.println(informace);
-                    } catch (IOException e) {
-                        System.out.println("Chyba při čtení souboru: " + e.getMessage());
-                    }
+
+                  case 10:
+                        System.out.println("Zadejte nazev knihy pro uložení informací do souboru .txt:");
+                           String vybranaKniha = scanner.nextLine();
+                           boolean nalezenaKniha = false;
+                           for (Knihy kniha : knihovna.getKnihy()) {
+                               if (kniha.getTitul().equalsIgnoreCase(vybranaKniha)) {
+                                   nalezenaKniha = true;
+                                   String souborNazev = vybranaKniha + ".txt";
+                                   Knihovna.ulozKnihu(souborNazev, kniha.getTitul(), kniha.getAutor(), kniha.getdatumVydani(), kniha.getZanr(), kniha.isVypujcena());
+                                   System.out.println("Informace o knize \"" + vybranaKniha + "\" byly uloženy do souboru \"" + souborNazev + "\".");
+                                   break;
+                               }
+                           }
+                           if (!nalezenaKniha) {
+                               System.out.println("Kniha nenalezena.");
+                           }
+                     break;   
+                         
+                  case 11:
+                        System.out.println("Zadejte název souboru .txt, ze kterého chcete načíst informace o knize:");
+                        String soubor = scanner.nextLine();
+                        try {
+                              String informace = Knihovna.nactiInformaceZeSouboru(soubor);
+                              System.out.println("Informace o knize načteny ze souboru:");
+                              System.out.println(informace);
+                        } catch (IOException e) {
+                              System.out.println("Chyba při čtení souboru: " + e.getMessage());
+                        }
                     break;
                     
-                case 12:
-                    System.out.println("Opousteni programu");
-                    System.exit(0);
-                    break;
-                    default:
-                    System.out.println("Neplatna volba. Zvolte prosim moznost ze seznamu.");
-            }
-        } catch (InputMismatchException e) {
-            System.out.println("Spatny vstup. Zadejte prosim cislo moznosti.");
-            scanner.nextLine(); 
+                  case 12:
+                        System.out.println("Opousteni programu");
+                        System.exit(0);
+                        break;
+                        default:
+                        System.out.println("Neplatna volba. Zvolte prosim moznost ze seznamu.");
+                  }
+            } catch (InputMismatchException e) {
+                  System.out.println("Spatny vstup. Zadejte prosim cislo moznosti.");
+                  scanner.nextLine(); 
         }
     }
 }
